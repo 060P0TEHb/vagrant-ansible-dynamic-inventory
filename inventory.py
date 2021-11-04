@@ -26,6 +26,7 @@ def list_running_hosts():
             hosts.append(host)
 
     result = {}
+    default_group = "default"
     for host in hosts:
         # get vm's id
         cmd = "vboxmanage list runningvms | grep {}".format(host)
@@ -36,7 +37,10 @@ def list_running_hosts():
         cmd = "vboxmanage showvminfo " + vm + " --machinereadable | grep description"
         description = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
         groups = (description.communicate())[0]
-        groups = groups.split('"')[1].split(':')[1].strip().split(',')
+        if len(groups) != 0:
+            groups = groups.split('"')[1].split(':')[1].strip().split(',')
+        else:
+            groups = [default_group]
         for g in groups:
             g = g.strip()
             if g in result:
