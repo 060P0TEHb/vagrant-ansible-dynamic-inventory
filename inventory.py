@@ -89,7 +89,7 @@ def get_host_details(host):
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, universal_newlines=True)
         ip = (p.communicate())[0]
         if '10.0.2.15' in ip:
-            cmd = "VBoxManage showvminfo " + host + " | grep ssh"
+            cmd = "VBoxManage showvminfo {} | grep ssh".format(host)
             p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, universal_newlines=True)
             ip = (p.communicate())[0]
             ip = ip.split(':')[1].strip()
